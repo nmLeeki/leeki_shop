@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-interface Item {
+export interface Item {
   id: number;
   title: string;
   price: number;
 } // 혹은 { id: number, name: string } 등 실제 item 타입으로 변경
 
-interface ItemsStore {
+export interface ItemsStore {
   items: Item[];
   addItem: (item: Item) => void;
   removeItem: (item: Item) => void;
