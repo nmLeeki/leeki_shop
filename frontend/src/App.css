@@ -47,3 +47,25 @@ input {
   display : block;
   margin : auto;
 }
+
+.join-form {
+  width : 300px;
+  margin : 0 auto;
+}
+.join-form input {
+  width : 100%;
+}
+.join-form button {
+  width : 100%;
+}
+.join-form h2 {
+  text-align : center;
+}
+.join-form p {
+  text-align : center;
+  font-size : 14px;
+}
+.join-form p a {
+  color : black;
+  text-decoration : none;
+}

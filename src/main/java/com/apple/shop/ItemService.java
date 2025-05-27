@@ -6,4 +6,6 @@ public interface ItemService {
     List<Item> findAll();
     Item save(Item item);
     Item findById(Long id);
+    Item update(Long id, Item item);
+    void delete(Long id);
 }

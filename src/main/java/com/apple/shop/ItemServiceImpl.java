@@ -28,4 +28,22 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 아이템이 없습니다: " + id));
     }
+    @Override
+    public Item update(Long id, Item item) {
+        Item existingItem = findById(id);
+        if(item.getTitle() != null && !item.getTitle().isEmpty()) {
+            existingItem.setTitle(item.getTitle());
+        }
+        if(item.getPrice() != null) {
+            existingItem.setPrice(item.getPrice());
+        }
+        return itemRepository.save(existingItem);
+    }
+    @Override
+    public void delete(Long id) {
+        if(!itemRepository.existsById(id)) {
+            throw new IllegalArgumentException("해당 아이템이 없습니다: " + id);
+        }
+        itemRepository.deleteById(id);
+    }
 }
