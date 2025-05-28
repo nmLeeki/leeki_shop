@@ -1,4 +1,6 @@
-package com.apple.shop;
+package com.apple.shop.item.service;
+
+import com.apple.shop.item.model.Item;
 
 import java.util.List;
 

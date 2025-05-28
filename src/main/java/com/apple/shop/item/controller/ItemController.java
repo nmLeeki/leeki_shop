@@ -1,5 +1,7 @@
-package com.apple.shop;
+package com.apple.shop.item.controller;
 
+import com.apple.shop.item.service.ItemService;
+import com.apple.shop.item.model.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

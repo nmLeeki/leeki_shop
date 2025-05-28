@@ -35,3 +35,4 @@ function Join() {
     </form>
   );
 }
+export default Join;

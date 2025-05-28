@@ -3,6 +3,8 @@ import Form from '@/pages/Form';
 import List from '@/pages/List';
 import Edit from '@/pages/Edit';
 import Join from '@/pages/Join';
+import Login from '@/pages/Login';
+import RequireAuth from '@/pages/RequireAuth';
 import { RecoilRoot } from 'recoil';
 import Detail from '@/pages/Detail.tsx';
 
@@ -14,10 +16,17 @@ function App() {
           <a className="logo">SpringMall</a>
           <Link to="/">List</Link>
           <Link to="/form">Form</Link>
-          <Link to="/join">Join</Link>
         </div>
         <Routes>
-          <Route path="/" element={<List />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <List />
+              </RequireAuth>
+            }
+          />
           <Route path="/form" element={<Form />} />
           <Route path="/edit/:id" element={<Edit />} />
           {/*//detail뒤에 id값 넣기*/}

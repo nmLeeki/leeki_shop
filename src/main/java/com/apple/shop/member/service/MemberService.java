@@ -1,4 +1,7 @@
-package com.apple.shop;
+package com.apple.shop.member.service;
+
+import com.apple.shop.member.model.Member;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public interface MemberService {
     // 회원 가입
@@ -13,5 +16,6 @@ public interface MemberService {
     // 회원 탈퇴
     void deleteMember(Long memberId);
 
+    Member login(String username, String password) throws UsernameNotFoundException;
 
 }

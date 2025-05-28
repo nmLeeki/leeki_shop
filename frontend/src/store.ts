@@ -14,6 +14,28 @@ export interface ItemsStore {
   setItems: (items: Item[]) => void; // 추가
 }
 
+// 로그인 store
+export interface LoginStore {
+  isLoggedIn: boolean;
+  username: string;
+  displayName?: string; // 선택적 속성으로 변경
+  setLogin: (username: string, displayName: string) => void;
+  setLogout: () => void;
+}
+
+export const useLoginStore = create(
+  persist<LoginStore>(
+    (set) => ({
+      isLoggedIn: false,
+      username: '',
+      displayName: '', // 선택적 속성으로 초기화
+      setLogin: (username, displayName) => set({ isLoggedIn: true, username, displayName }),
+      setLogout: () => set({ isLoggedIn: false, username: '' }),
+    }),
+    { name: 'login-storage' },
+  ),
+);
+
 export const useItemsStore = create(
   persist<ItemsStore>(
     (set) => ({

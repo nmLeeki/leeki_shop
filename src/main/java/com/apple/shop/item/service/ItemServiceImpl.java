@@ -1,5 +1,7 @@
-package com.apple.shop;
+package com.apple.shop.item.service;
 
+import com.apple.shop.item.model.Item;
+import com.apple.shop.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

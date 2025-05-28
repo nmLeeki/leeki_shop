@@ -1,4 +1,4 @@
-package com.apple.shop;
+package com.apple.shop.item.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,6 +1,5 @@
-package com.apple.shop;
+package com.apple.shop.core.config.security;
 
-import net.minidev.json.writer.BeansMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
