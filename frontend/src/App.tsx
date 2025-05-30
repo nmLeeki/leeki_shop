@@ -7,8 +7,21 @@ import Login from '@/pages/Login';
 import RequireAuth from '@/pages/RequireAuth';
 import { RecoilRoot } from 'recoil';
 import Detail from '@/pages/Detail.tsx';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  // /getCurrentMember api post 요청 보내기
+  useEffect(() => {
+    axios
+      .post('/api/getCurrentMember', { withCredentials: true })
+      .then((response) => {
+        console.log('Current member:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching current member:', error);
+      });
+  }, []);
   return (
     <RecoilRoot>
       <BrowserRouter>

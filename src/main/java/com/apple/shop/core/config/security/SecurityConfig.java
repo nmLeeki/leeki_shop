@@ -15,6 +15,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(cors -> cors.configurationSource(request -> {
+            var config = new org.springframework.web.cors.CorsConfiguration();
+            config.addAllowedOrigin("http://localhost:5173");
+            config.addAllowedHeader("*");
+            config.addAllowedMethod("*");
+            config.setAllowCredentials(true);
+            return config;
+        }));
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll()
         );

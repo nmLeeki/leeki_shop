@@ -16,7 +16,7 @@ function Login() {
   const loginSubmit = () => {
     // axios로 post요청
     axios
-      .post('/api/login', { username, password })
+      .post('/api/login', { username, password }, { withCredentials: true })
       .then((response) => {
         setLogin(response.data.name, response.data.displayName); // 로그인 상태 업데이트
         navigate('/'); // 로그인 성공 후 홈으로 이동

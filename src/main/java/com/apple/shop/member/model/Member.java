@@ -18,4 +18,7 @@ public class Member {
     private String username;
     private String password;
     private String displayName;
+    // 권한 필드 추가
+    private String role; // 예: "ROLE_USER"
+
 }
