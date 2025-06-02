@@ -9,7 +9,7 @@ function Form() {
     console.log({ title, price });
     // axios로 post요청
     axios
-      .post('/api/add', { title, price })
+      .post('/api/add', { title, price }, { withCredentials: true })
       .then((response: any) => {
         console.log('성공:', response.data);
         window.location.href = '/';

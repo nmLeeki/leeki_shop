@@ -21,4 +21,12 @@ public class Member {
     // 권한 필드 추가
     private String role; // 예: "ROLE_USER"
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "username='" + username + '\'' +
+                ", role=" + role + // ⚠ 여기서 items → item → member → items 무한루프 가능
+                '}';
+    }
+
 }

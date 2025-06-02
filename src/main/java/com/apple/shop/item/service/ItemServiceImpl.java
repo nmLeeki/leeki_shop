@@ -3,6 +3,8 @@ package com.apple.shop.item.service;
 import com.apple.shop.item.model.Item;
 import com.apple.shop.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,9 @@ public class ItemServiceImpl implements ItemService {
         if(item.getTitle() == null || item.getTitle().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be empty");
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("현재 인증 정보: " + auth);
+        item.setUsername(auth.getName());
         return itemRepository.save(item);
     }
 

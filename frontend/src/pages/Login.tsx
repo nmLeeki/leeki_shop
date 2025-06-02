@@ -1,13 +1,13 @@
 //로그인 페이지 구현
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '@/App.css';
 import { useLoginStore } from '@/store.ts';
 
 function Login() {
-  const { setLogin } = useLoginStore();
+  const { setLogin, setLogout, isLoggedIn } = useLoginStore();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,6 +25,14 @@ function Login() {
         console.error('에러:', error);
       });
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(-1); // 이미 로그인된 경우 이전 페이지로 이동
+    } else {
+      setLogout(); // 비로그인 상태로 초기화
+    }
+  }, []);
 
   return (
     <form className="login-form">

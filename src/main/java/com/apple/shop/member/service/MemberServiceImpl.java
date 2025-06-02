@@ -1,18 +1,22 @@
 package com.apple.shop.member.service;
-import java.util.List;
-import java.util.ArrayList;
+
 import com.apple.shop.member.model.Member;
 import com.apple.shop.member.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.List;
 
 
 @Service
@@ -20,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public Member join(Member member)  {
         if (member.getUsername().length() < 4 ||
@@ -49,43 +54,53 @@ public class MemberServiceImpl implements MemberService {
 
     }
     @Override
-    public Member login(String username, String password)  {
-        Member member = (Member) memberRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+    public Member authenticateUser(String username, String password) {
+        // 사용자 정보 조회
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new IllegalArgumentException("Invalid username or password");
-        }else{
-            // 로그인 유저 정보
-            System.out.println("로그인 성공");
+            throw new IllegalArgumentException("Invalid credentials");
         }
 
-        // 권한 정보를 리스트로 변환
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        System.out.println("권한 정보: " + authorities);
-        // username과 displayName만 가진 Member 객체 생성
-        // 로그인 유저 정보
+
+
+        List<GrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority("ROLE_USER")
+        );
+
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(member.getUsername(), null, authorities);
+                new UsernamePasswordAuthenticationToken(
+                        member.getUsername(),
+                        null,
+                        authorities
+                );
+
+
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        Member result = new Member();
-        result.setUsername(member.getUsername());
-        result.setDisplayName(member.getDisplayName());
-        result.setRole(member.getRole());
-        return result;
+
+        // 6. 세션 강제 생성 (쿠키 발급 유도)
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attr != null) {
+            HttpServletRequest request = attr.getRequest();
+            request.getSession(true); // 👉 이 호출이 JSESSIONID 생성 유도
+        }
+
+        return member;
     }
 
     @Override
-    public Member getCurrentMember(Authentication auth) {
-        System.out.println(auth);
-        if (auth == null || !auth.isAuthenticated()) {
-            System.out.println("인증 정보 없음");
-            return null;
+    public void logout(Authentication authentication) {
+        SecurityContextHolder.clearContext();
+        // 세션 무효화
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpServletRequest request = attr.getRequest();
+        HttpSession session = request.getSession(false); // 기존 세션만 가져옴
+        if (session != null) {
+            session.invalidate();
         }
-        String username = auth.getName();
-        System.out.println("username: " + username);
-        return memberRepository.findByUsername(username)
-                .orElse(null);
+
     }
+
 }

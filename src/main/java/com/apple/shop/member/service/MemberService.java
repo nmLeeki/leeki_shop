@@ -17,8 +17,8 @@ public interface MemberService {
     // 회원 탈퇴
     void deleteMember(Long memberId);
 
-    Member login(String username, String password) throws UsernameNotFoundException;
+    Member authenticateUser(String username, String password);
 
-    // 로그인 유저 정보
-    Member getCurrentMember(Authentication auth);
+    //로그아웃
+    void logout(Authentication authentication);
 }

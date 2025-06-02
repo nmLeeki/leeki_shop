@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '@/App.css';
 import { useRecoilState } from 'recoil';
-import { Item, useItemsStore } from '@/store.ts';
+import { Item, useItemsStore, useLoginStore } from '@/store.ts';
 
 function List() {
   const { items, setItems } = useItemsStore();
@@ -32,8 +32,8 @@ function List() {
     <>
       {items &&
         items.map((item, index) => (
-          <div className={'card'}>
-            <Link to={`/detail/${item.id}`} key={index}>
+          <div className={'card'} key={index}>
+            <Link to={`/detail/${item.id}`}>
               <img src="https://placehold.co/300" />
               <div>
                 <h4>{item.title}</h4>

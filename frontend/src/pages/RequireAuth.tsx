@@ -1,14 +1,12 @@
-// src/pages/RequireAuth.tsx
 import { useLoginStore } from '@/store.ts';
-import { Navigate } from 'react-router-dom';
-import { JSX } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-function RequireAuth({ children }: { children: JSX.Element }) {
+function RequireAuth() {
   const { isLoggedIn } = useLoginStore();
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
-  return children;
+  return <Outlet />;
 }
 
 export default RequireAuth;
