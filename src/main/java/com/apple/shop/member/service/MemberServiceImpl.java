@@ -53,54 +53,5 @@ public class MemberServiceImpl implements MemberService {
     public void deleteMember(Long memberId) {
 
     }
-    @Override
-    public Member authenticateUser(String username, String password) {
-        // 사용자 정보 조회
-        Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        // 비밀번호 검증
-        if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
-        }
-
-
-
-        List<GrantedAuthority> authorities = List.of(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
-
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        member.getUsername(),
-                        null,
-                        authorities
-                );
-
-
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-        // 6. 세션 강제 생성 (쿠키 발급 유도)
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attr != null) {
-            HttpServletRequest request = attr.getRequest();
-            request.getSession(true); // 👉 이 호출이 JSESSIONID 생성 유도
-        }
-
-        return member;
-    }
-
-    @Override
-    public void logout(Authentication authentication) {
-        SecurityContextHolder.clearContext();
-        // 세션 무효화
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpServletRequest request = attr.getRequest();
-        HttpSession session = request.getSession(false); // 기존 세션만 가져옴
-        if (session != null) {
-            session.invalidate();
-        }
-
-    }
 
 }

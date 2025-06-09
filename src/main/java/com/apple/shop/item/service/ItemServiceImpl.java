@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
             throw new IllegalArgumentException("Title cannot be empty");
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("현재 인증 정보: " + auth);
+        System.out.println("현재 인증 정보 아이템 추가할때: " + auth);
         item.setUsername(auth.getName());
         return itemRepository.save(item);
     }

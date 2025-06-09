@@ -18,16 +18,4 @@ public class MemberController {
     public Member writePost(@RequestBody Member member) {
         return memberService.join(member);
     }
-
-    //로그인
-    @PostMapping("/login")
-    public Member login(@RequestBody Member member) {
-        // 인증 성공 후 사용자 정보 반환
-        return memberService.authenticateUser(member.getUsername(),member.getPassword());
-    }
-    @PostMapping("/logout")
-    public String logout(Authentication authentication) {
-        memberService.logout(authentication);
-        return "로그아웃 성공";
-    }
 }

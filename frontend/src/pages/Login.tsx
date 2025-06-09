@@ -14,9 +14,15 @@ function Login() {
   const navigate = useNavigate();
 
   const loginSubmit = () => {
-    // axios로 post요청
+    const params = new URLSearchParams();
+    params.append('username', username);
+    params.append('password', password);
+
     axios
-      .post('/api/login', { username, password }, { withCredentials: true })
+      .post('/api/login', params, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      })
       .then((response) => {
         setLogin(response.data.name, response.data.displayName); // 로그인 상태 업데이트
         navigate('/'); // 로그인 성공 후 홈으로 이동
