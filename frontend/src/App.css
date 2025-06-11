@@ -69,3 +69,28 @@ input {
   color : black;
   text-decoration : none;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+  gap: 8px;
+}
+
+.pagination button {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.pagination button:disabled,
+.pagination button.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+  cursor: default;
+}

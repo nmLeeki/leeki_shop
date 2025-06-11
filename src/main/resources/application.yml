@@ -5,6 +5,9 @@ spring:
     password: dkdlzks12@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  session:
+    store-type: jdbc
+
   jpa:
     properties:
       hibernate:
@@ -34,5 +37,8 @@ spring:
 
 server:
   port: 8091
+  servlet:
+    session:
+      timeout: 30m
 
 cors-allowed-orgins: http://localhost:5173
