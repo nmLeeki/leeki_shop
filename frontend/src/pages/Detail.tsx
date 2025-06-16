@@ -40,7 +40,7 @@ function Detail() {
 
   return (
     <div className="detail">
-      <img src="https://placehold.co/300" alt="Item" />
+      <img src={findItem.filename ? findItem.filename : 'https://placehold.co/300'} alt="Item" />
       <h4>{findItem.title}</h4>
       <p>Price: {findItem.price}</p>
     </div>

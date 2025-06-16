@@ -15,4 +15,5 @@ public class Item {
     private String title;
     private Integer price;
     private String username;
+    private String filename;
 }

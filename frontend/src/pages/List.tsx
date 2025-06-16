@@ -7,9 +7,9 @@ import { Item, useItemsStore, useLoginStore } from '@/store.ts';
 
 function List() {
   const { items, setItems } = useItemsStore();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [size] = useState(5);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     // POST 방식, 파라미터 객체로 전달
     axios.post('/api/list', { page, size }).then((res) => {
@@ -40,7 +40,7 @@ function List() {
         items.map((item, index) => (
           <div className={'card'} key={index}>
             <Link to={`/detail/${item.id}`}>
-              <img src="https://placehold.co/300" />
+              <img src={item.filename ? item.filename : 'https://placehold.co/300'} />
               <div>
                 <h4>{item.title}</h4>
                 <p>{item.price}</p>
