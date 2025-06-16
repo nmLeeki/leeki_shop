@@ -4,6 +4,7 @@ export interface Item {
   id: number;
   title: string;
   price: number;
+  filename: string;
 } // 혹은 { id: number, name: string } 등 실제 item 타입으로 변경
 
 export interface ItemsStore {
