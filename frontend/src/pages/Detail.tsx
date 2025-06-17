@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { Item, useItemsStore } from '@/store.ts';
 import '@/App.css';
 import axios from 'axios';
+import { Get } from '@/services';
 
 function Detail() {
   const { id } = useParams();
@@ -13,8 +14,7 @@ function Detail() {
   const [findItem, setFindItem] = useState<any>([]);
   useEffect(() => {
     if (id) {
-      axios
-        .get(`/api/detail/${id}`)
+      Get(`/detail/${id}`)
         .then((response) => {
           setFindItem(response.data);
         })

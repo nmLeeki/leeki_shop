@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Post } from '@/services';
 
 function Form() {
   const { id } = useParams();
@@ -10,8 +11,7 @@ function Form() {
   const editSubmit = () => {
     console.log({ title, price });
     // axios로 post요청
-    axios
-      .post(`/api/update/${id}`, { title, price })
+    Post(`/update/${id}`, { title, price })
       .then((response: any) => {
         console.log('성공:', response.data);
         window.location.href = '/';

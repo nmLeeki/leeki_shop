@@ -60,12 +60,14 @@ public class SecurityConfig {
 
         // 폼 로그인 설정
         http.formLogin(form -> form
-                // 로그인 처리 URL 지정 (프론트엔드에서 /login으로 POST 요청)
+                // React가 처리할 로그인 “페이지” 경로
+                .loginPage("/login")
+                // 실제 인증 처리(POST)는 /api/login 으로
                 .loginProcessingUrl("/login")
-                // 로그인 성공 시 커스텀 핸들러 실행
                 .successHandler(successHandler)
-                // 로그인 실패 시 커스텀 핸들러 실행
                 .failureHandler(failureHandler)
+                // 이 두 경로에 대해서는 인증 없이 접근 허용
+                .permitAll()
         );
 
         // 로그아웃 설정

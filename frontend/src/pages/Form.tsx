@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Post, Put } from '@/services';
 
 function Form() {
   const [title, setTitle] = useState('');
@@ -18,8 +18,7 @@ function Form() {
       alert('파일을 먼저 업로드하세요.');
       return;
     }
-    axios
-      .post('/api/add', { title, price, filename: uploadedUrl }, { withCredentials: true })
+    Post('/add', { title, price, filename: uploadedUrl })
       .then((response: any) => {
         console.log('성공:', response.data);
         window.location.href = '/';
@@ -36,12 +35,10 @@ function Form() {
     setUploading(true);
     try {
       // 1. presigned URL 요청
-      const { data } = await axios.post('/api/presignedURL', { fileName: files[0].name }, { withCredentials: true });
+      const { data } = await Post('/presignedURL', { fileName: files[0].name });
       const presignedUrl = data.url;
       // 2. S3에 파일 업로드
-      await axios.put(presignedUrl, files[0], {
-        headers: { 'Content-Type': files[0].type },
-      });
+      await Put(presignedUrl, files[0]);
       // 3. 업로드된 파일의 실제 S3 URL 추출 (쿼리스트링 제거)
       const fileUrl = presignedUrl.split('?')[0];
       setUploadedUrl(fileUrl);

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '@/App.css';
-import axios from 'axios';
-import { useRecoilState } from 'recoil';
-import { Item, useItemsStore, useLoginStore } from '@/store.ts';
+import { Item, useItemsStore } from '@/store.ts';
+import { Delete, Post } from '@/services';
 
 function List() {
   const { items, setItems } = useItemsStore();
@@ -12,7 +11,7 @@ function List() {
   const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     // POST 방식, 파라미터 객체로 전달
-    axios.post('/api/list', { page, size }).then((res) => {
+    Post('/list', { page, size }).then((res) => {
       setItems(res.data.content);
       setTotalPages(res.data.totalPages);
     });
@@ -21,10 +20,8 @@ function List() {
   const deleteClick = (e: Item) => {
     const id = e.id;
     if (id) {
-      fetch(`/api/delete/${id}`, {
-        method: 'DELETE',
-      }).then((response) => {
-        if (response.ok) {
+      Delete(`/delete/${id}`).then((response) => {
+        if (response.data) {
           // 함수형 업데이트 대신 직접 새 배열 전달
           setItems(items.filter((item) => item.id !== id));
         } else {

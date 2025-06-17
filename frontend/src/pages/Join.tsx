@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@/App.css';
+import { Post } from '@/services';
 function Join() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -13,8 +14,7 @@ function Join() {
   const joinSubmit = () => {
     console.log({ username, password, displayName });
     // axios로 post요청
-    axios
-      .post('/api/join', { username, password, displayName })
+    Post('/join', { username, password, displayName })
       .then((response) => {
         console.log('성공:', response.data);
         navigate('/'); // 회원가입 성공 후 홈으로 이동

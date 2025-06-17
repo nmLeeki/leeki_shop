@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '@/App.css';
 import { useLoginStore } from '@/store.ts';
+import { FormPost } from '@/services';
 
 function Login() {
   const { setLogin, setLogout, isLoggedIn } = useLoginStore();
@@ -18,11 +19,7 @@ function Login() {
     params.append('username', username);
     params.append('password', password);
 
-    axios
-      .post('/api/login', params, {
-        withCredentials: true,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      })
+    FormPost('/login', params)
       .then((response) => {
         setLogin(response.data.name, response.data.displayName); // 로그인 상태 업데이트
         navigate('/'); // 로그인 성공 후 홈으로 이동
